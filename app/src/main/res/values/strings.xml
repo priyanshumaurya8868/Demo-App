@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Demo App</string>
+    <string name="employees">Employees</string>
+    <string name="cisf">CISF</string>
+    <string name="establishments">Establishments</string>
+    <string name="search">Search</string>
+</resources>

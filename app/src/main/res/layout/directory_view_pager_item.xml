@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rv_employees"
+        android:paddingVertical="20dp"
+        android:clipToPadding="false"
+        android:background="@color/mild_white"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/employees_item_view"/>
+
+  <TextView
+      android:id="@+id/emptyList_tv"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+      android:text="Nothing to Show...!"
+      android:layout_centerInParent="true"
+      android:visibility="invisible"
+      />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_circular"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        />
+</RelativeLayout>
