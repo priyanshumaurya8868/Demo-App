@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragmentContainerView) as NavHostFragment?
         navController = navHostFragment!!.navController
-
         val myToolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(myToolbar)
         NavigationUI.setupWithNavController(myToolbar, navController!!)
