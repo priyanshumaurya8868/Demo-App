@@ -20,6 +20,7 @@ import com.priyanshumaurya8868.demoapp.api.model.entities.Employee
 import com.priyanshumaurya8868.demoapp.api.model.response.CategoryResponse
 import com.priyanshumaurya8868.demoapp.api.model.response.EmployeesResponse
 import com.priyanshumaurya8868.demoapp.databinding.DirectoryFragmentBinding
+import com.priyanshumaurya8868.demoapp.ui.MainActivity
 import com.priyanshumaurya8868.demoapp.ui.MainViewModel
 import com.priyanshumaurya8868.demoapp.ui.adapter.ViewPagerAdaper
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +29,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DirectoryFragment : Fragment() {
-
     private var _binding: DirectoryFragmentBinding? = null
     private var CUR_TAB_POSITION = 0
     private lateinit var madapter: ViewPagerAdaper
@@ -40,17 +40,17 @@ class DirectoryFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         madapter = ViewPagerAdaper { openDetailFrag(it) }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        ( requireActivity() as MainActivity).menuItem?.let{it.isVisible   = true}
         _binding = DirectoryFragmentBinding.inflate(inflater, container, false)
         return _binding?.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
         viewModel.categories.observe({ lifecycle }) {
             handelCategoryResource(it)
@@ -59,19 +59,11 @@ class DirectoryFragment : Fragment() {
         viewModel.employeesList.observe({ lifecycle }) {
             handelEmployeesResource(it)
         }
-
     }
-
-
-
     private fun setUpViewPager(data: List<Category>) {
-
         madapter.categoryList = data
-
         _binding?.apply {
-
             viewPager2.adapter = madapter
-
             TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
                 tab.text = madapter.categoryList?.get(position)?.category.toString()
 
@@ -92,41 +84,19 @@ class DirectoryFragment : Fragment() {
                         Log.d("omega", "onTabselect thread is running...")
                     }
                 }
-
-                override fun onTabUnselected(tab: TabLayout.Tab?) {
-                }
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-//                    job?.cancel()
-//                    job = lifecycleScope.launch {
-//                        madapter.categoryList?.let { list ->
-//                            tab?.position?.let { position ->
-//                                val _job = viewModel.getEmployee(empId = list[position].categoryid)
-//                                _job.join()
-//                                madapter._adapter?.notifyDataSetChanged()
-//                            }
-//                        }
-//                        Log.d("omega", "onTab reselect thread is running...")
-//                    }
-
-                }
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+                override fun onTabReselected(tab: TabLayout.Tab?){}
             })
-
-
         }
     }
-
-
     private fun handelCategoryResource(res: Resource<CategoryResponse?>) {
         when (res) {
             is Resource.Loading -> {
                 _binding?.progressCircular?.isVisible = true
             }
-
             is Resource.Error -> {
                 _binding?.progressCircular?.isVisible = false
                 Toast.makeText(requireContext(), res.msg, Toast.LENGTH_SHORT).show()
-
             }
             is Resource.Success -> {
                 setUpViewPager(res.data!!.categories)
@@ -134,7 +104,6 @@ class DirectoryFragment : Fragment() {
             }
         }
     }
-
     private fun handelEmployeesResource(res: Resource<EmployeesResponse?>) {
         when (res) {
             is Resource.Loading -> {
@@ -144,18 +113,17 @@ class DirectoryFragment : Fragment() {
                     viewPager2.isVisible = false
                 }
             }
-
             is Resource.Error -> {
                 _binding?.apply {
                     progressCircular.isVisible = false
-                    emptyListTv.isVisible = true
-                    viewPager2.isVisible = true
+                    if (res.data==null){
+                        emptyListTv.isVisible = true
+                        viewPager2.isVisible = false
+                    }
                 }
                 Toast.makeText(requireContext(), res.msg, Toast.LENGTH_SHORT).show()
-
             }
             is Resource.Success -> {
-
                 Log.d("omega", "handle res called got suceess")
                 _binding?.apply {
                     viewPager2.isVisible = true
@@ -166,19 +134,16 @@ class DirectoryFragment : Fragment() {
                          viewPager2.isVisible = false
                           emptyListTv.isVisible = true
                     }
-
-
                 }
-
             }
         }
     }
-
     private fun openDetailFrag(emp: Employee) {
         val bundle = Bundle()
         bundle.putSerializable("key", emp)
         findNavController().navigate(R.id.action_mainFragment_to_detailFragment, bundle)
     }
+
 
 
     override fun onDestroy() {

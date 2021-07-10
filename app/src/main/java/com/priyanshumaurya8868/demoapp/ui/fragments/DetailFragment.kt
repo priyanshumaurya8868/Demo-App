@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.RequestManager
+import com.priyanshumaurya8868.demoapp.R
 import com.priyanshumaurya8868.demoapp.api.model.entities.Employee
 import com.priyanshumaurya8868.demoapp.databinding.DetailFragmentBinding
 import com.priyanshumaurya8868.demoapp.load
+import com.priyanshumaurya8868.demoapp.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,9 +30,13 @@ class DetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        ( requireActivity() as MainActivity).menuItem?.let{it.isVisible   = false
+        it.collapseActionView()}
         _binding = DetailFragmentBinding.inflate(inflater,container,false)
         return _binding?.root
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

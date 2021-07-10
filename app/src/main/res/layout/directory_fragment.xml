@@ -6,22 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/teal_200"
-        app:tabTextColor="@color/white"
-        app:tabSelectedTextColor="@color/white"
-        app:tabIndicatorColor="@android:color/white"
-        android:nestedScrollingEnabled="true"
-        />
+   <HorizontalScrollView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@color/teal_200"
+       android:id="@+id/horizontal_scroll_view"
+       >
+       <com.google.android.material.tabs.TabLayout
+           android:id="@+id/tab_layout"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:background="@color/teal_200"
+           app:tabTextColor="@color/white"
+           app:tabSelectedTextColor="@color/white"
+           app:tabIndicatorColor="@android:color/white"
+           android:nestedScrollingEnabled="true"
+           app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+           app:tabGravity="fill"
+           app:tabMode="scrollable"
+           />
+   </HorizontalScrollView>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tab_layout"
+        android:layout_below="@id/horizontal_scroll_view"
         />
 
     <TextView
